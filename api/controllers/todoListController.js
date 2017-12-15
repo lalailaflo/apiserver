@@ -37,24 +37,29 @@ exports.read_a_task = function(req, res) {
 };
 
 
-exports.update_a_task = function(req, res) {
-  console.log('taskId',req.params);
-  Task.findOneAndUpdate({_id: req.params.taskId}, req.body, {new: true}, function(err, task) {
-    if (err)
+exports.update_a_task = (req, res) => {
+  Task.findOneAndUpdate({ _id: req.params.taskId }, req.body, { new: true }, (err, task) => {
+    if (err) {
       res.send(err);
-    res.json(task);
+    } else {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+      res.json(task);
+    }
   });
 };
 
 
-exports.delete_a_task = function(req, res) {
-
-
+exports.delete_a_task = (req, res) => {
   Task.remove({
-    _id: req.params.taskId
-  }, function(err, task) {
-    if (err)
+    _id: req.params.taskId,
+  }, (err, task) => {
+    if (err) {
       res.send(err);
-    res.json({ message: 'Task successfully deleted' });
+    } else {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+      res.json({ message: 'Task successfully deleted' });
+    }
   });
 };
