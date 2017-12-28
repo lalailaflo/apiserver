@@ -1,6 +1,7 @@
+require('./api/models/todoListModel'); // created model loading here
+
 const app = require('express')();
 const mongoose = require('mongoose');
-const Task = require('./api/models/todoListModel'); // created model loading here
 const bodyParser = require('body-parser');
 const routes = require('./api/routes/todoListRoutes');
 

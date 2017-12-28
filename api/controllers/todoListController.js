@@ -28,11 +28,15 @@ exports.create_a_task = (req, res) => {
 };
 
 
-exports.read_a_task = function(req, res) {
-  Task.findById(req.params.taskId, function(err, task) {
-    if (err)
+exports.read_a_task = (req, res) => {
+  Task.findById(req.params.taskId, (err, task) => {
+    if (err) {
       res.send(err);
-    res.json(task);
+    } else {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+      res.json(task);
+    }
   });
 };
 
