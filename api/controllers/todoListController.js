@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+const fs = require('fs');
 
 const Task = mongoose.model('Tasks');
-
+const Image = mongoose.model('Image');
 exports.list_all_tasks = (req, res) => {
   Task.find({}, (err, task) => {
     if (err) {
@@ -42,15 +43,20 @@ exports.read_a_task = (req, res) => {
 
 
 exports.update_a_task = (req, res) => {
-  Task.findOneAndUpdate({ _id: req.params.taskId }, req.body, { new: true }, (err, task) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-      res.json(task);
-    }
-  });
+  Task.findOneAndUpdate(
+    { _id: req.params.taskId },
+    req.body,
+    { new: true },
+    (err, task) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+        res.json(task);
+      }
+    },
+  );
 };
 
 
@@ -64,6 +70,34 @@ exports.delete_a_task = (req, res) => {
       res.header('Access-Control-Allow-Origin', '*');
       res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
       res.json({ message: 'Task successfully deleted' });
+    }
+  });
+};
+
+exports.upload_image = (req, res) => {
+
+  const newPic = new Image();
+
+  newPic.data = fs.readFileSync(req.file.path);
+  newPic.contentType = 'image/jpeg';
+  newPic.save((err, img) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+      res.json(img);
+    }
+  });
+};
+exports.get_images = (req, res) => {
+  Image.find({}, (err, image) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+      res.json(image);
     }
   });
 };

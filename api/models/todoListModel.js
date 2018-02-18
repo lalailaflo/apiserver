@@ -3,10 +3,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 
-var TaskSchema = new Schema({
+const TaskSchema = new Schema({
   name: {
     type: String,
     required: 'Kindly enter the name of the task'
+  },
+  image: {
+    type: Buffer,
   },
   Created_date: {
     type: Date,
@@ -21,4 +24,16 @@ var TaskSchema = new Schema({
   }
 });
 
+const ImageSchema = new Schema({
+  image: {
+    type: Buffer,
+  },
+  contentType: {
+    type: String,
+  },
+  idTask: {
+    type: String,
+  },
+});
 module.exports = mongoose.model('Tasks', TaskSchema);
+module.exports = mongoose.model('Image', ImageSchema);

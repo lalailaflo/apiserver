@@ -5,6 +5,10 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const routes = require('./api/routes/todoListRoutes');
 
+
+
+
+
 const port = process.env.PORT || 3001;
 const allowCrossDomain = (req, res, next) => {
   if (req.method === 'OPTIONS') {
@@ -20,6 +24,7 @@ mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/Tododb');
 
 app.use(allowCrossDomain);
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
